@@ -58,14 +58,14 @@ class replay_buffer(object):
                 self.bests.pop()
         if (self.isFull()):
             # replace an older sample, but protecting the beginning
-            error = np.random.uniform(self.buffer[0][self.size/5],self.buffer[self.size/2][0])
+            error = np.random.uniform(self.buffer[self.size/5][0],self.buffer[self.size/2][0])
             self.buffer[random.randint(self.size/5, self.size-1)] = ((error,sample))
         elif len( self.buffer)<5:
             self.buffer.append((1,sample))
         else:
 #            print self.buffer[0][0],self.buffer[self.current_size()/5][0]
 
-            error = np.random.uniform(self.buffer[0][self.current_size()/5],self.buffer[self.current_size()/2][0])
+            error = np.random.uniform(self.buffer[self.current_size()/5][0],self.buffer[self.current_size()/2][0])
             self.buffer.appendleft((error,sample))
             
 
