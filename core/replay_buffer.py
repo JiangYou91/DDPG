@@ -124,5 +124,5 @@ class replay_buffer(object):
        for i in range(len(td_err)):   
            if self.sample_minibatch[i][0]==1:
                sample =  self.buffer[self.sample_minibatch[i][1]][1]
-               self.buffer[self.sample_minibatch[i]]=(td_err[i][0],sample)
+               self.buffer[self.sample_minibatch[i][1]]=(td_err[i][0],sample)
            
