@@ -33,6 +33,8 @@ class replay_buffer(object):
         
         self.k=64
         self.dist_sur_k=[] 
+        self.range_dist=0
+        self.length_range=0        
         
     def flush(self):
 #        self.buffer = []
@@ -261,6 +263,9 @@ class replay_buffer(object):
 #        self.sorted_buffer=[e[1] for e in l]
         #sorted(self.sorted_buffer, key=lambda s:s[1].reward, reverse=True)
         self.sorted_buffer.sort(reverse=True) 
-
-
+        print self.sorted_buffer[0]
+        print self.sorted_buffer[0]
+        print self.distribution 
+         
+        print self.dist_sur_k=[] 
 
