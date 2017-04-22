@@ -200,7 +200,7 @@ class replay_buffer(object):
                     index = np.random.randint(index_range*self.length_range, (index_range+1)*self.length_range+1)
     #                    sample = self.sorted_buffer[index]               
                     sample = self.sorted_buffer[index][1]              
-                    print index, index_range
+#                    print index, index_range
                     
                     self.sample_minibatch.append((1,index))
                 states.append(sample.state) #no need to put into [] because it is already a vector
