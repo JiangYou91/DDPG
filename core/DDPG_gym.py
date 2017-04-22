@@ -235,10 +235,10 @@ class DDPG_gym(object):
             self.state = self.env.reset()
             self.noise_generator.randomRange()
             reward, done = self.perform_episode()
-            if i%20 == 0:
-                self.config.render =True
-            else:
-                self.config.render =False
+#            if i%20 == 0:
+#                self.config.render =True
+#            else:
+#                self.config.render =False
             if i % self.config.print_interval == 0 and self.config.train:
                 self.stepsTime += self.totStepTime + self.totTrainTime
 #                print("Steps/minutes : " , 60.0*self.numSteps/self.stepsTime)               
