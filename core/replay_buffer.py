@@ -62,7 +62,7 @@ class replay_buffer(object):
         elif len( self.buffer)<5:
             self.buffer.append((1,sample))
         else:
-            print self.buffer[0][0],self.buffer[self.current_size()/5][0]
+#            print self.buffer[0][0],self.buffer[self.current_size()/5][0]
             error = np.random.uniform(self.buffer[0][0],self.buffer[self.current_size()/5][0])
             self.buffer.appendleft((error,sample))
             
