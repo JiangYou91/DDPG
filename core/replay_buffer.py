@@ -132,9 +132,9 @@ class replay_buffer(object):
             return minibatch(states,actions,rewards,next_states)
    
     def sort_buffer(self):
+        self.buffer=  deque(sorted(self.buffer,reverse=True))
         print self.buffer[0],self.buffer[self.current_size()/4],self.buffer[-1]
         print self.sample_minibatch
-        self.buffer=  deque(sorted(self.buffer,reverse=True))
         
     def update_td_error(self,td_err):    
        for i in range(len(td_err)):   
