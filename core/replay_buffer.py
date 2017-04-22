@@ -15,6 +15,7 @@ class replay_buffer(object):
     def __init__(self, min_filled,size):
         self.buffer = deque([])
         self.bests = []
+        self.sample_minibatch=[]
         self.size = size
         self.min_filled = min_filled
         self.reward_min = float("Inf")
@@ -93,6 +94,8 @@ class replay_buffer(object):
             rewards = []
             actions = []
             next_states = []
+            self.sample_minibatch=[]
+            
             for i in range(batch_size):
                 if random.uniform(0.0,1.0)<0.1:
                     index= random.randint(0, len(self.bests)-1)
