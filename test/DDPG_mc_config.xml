@@ -15,12 +15,12 @@
   	<regularization>0.001</regularization>
   </criticParams>
   <miscParams>
-    <buffersize>400</buffersize>
+    <buffersize>40000</buffersize>
     <buffermin>100</buffermin>
     <minibatchsize>64</minibatchsize>
     <gradmode>true</gradmode>
     <print_interval>1</print_interval>
-    <max_steps>99</max_steps>
+    <max_steps>999</max_steps>
     <train>true</train>
     <render>false</render>
     <draw_policy>false</draw_policy>

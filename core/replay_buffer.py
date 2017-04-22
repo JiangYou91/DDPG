@@ -177,7 +177,7 @@ class replay_buffer(object):
              
              
             for i in range(batch_size): 
-                if np.random.rand()<0.1:
+                if np.random.rand()<0.3:
 #                    index= min(len(sortd_buff_by_reward)-1,int(np.random.exponential(1)*len(sortd_buff_by_reward)/6))
 #                    sample = sortd_buff_by_reward[index][0]
 #                    index= random.randint(0, len(self.bests)-1)
@@ -260,8 +260,7 @@ class replay_buffer(object):
 #        self.td_error=[e[0] for e in l]
 #        self.sorted_buffer=[e[1] for e in l]
         #sorted(self.sorted_buffer, key=lambda s:s[1].reward, reverse=True)
-        self.sorted_buffer.sort(reverse=True)
-        print self.sorted_buffer
+        self.sorted_buffer.sort(reverse=True) 
 
 
 
