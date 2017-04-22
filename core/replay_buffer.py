@@ -135,12 +135,13 @@ class replay_buffer(object):
                 next_states.append(sample.next_state) #no need to put into [] because it is already a vector
             return minibatch(states,actions,rewards,next_states)
    
-    def sort_buffer(self):
-#        self.buffer=  deque(sorted(self.buffer,reverse=True,key=lambda x:x[1].reward))
+    def sort_buffer_by_td_error(self): 
         self.buffer=  deque(sorted(self.buffer,reverse=True))
         print self.buffer[0],self.buffer[self.current_size()/10]
 #        print self.sample_minibatch
-        
+    def sort_buffer_by_reward(self):
+        self.buffer=  deque(sorted(self.buffer,reverse=True,key=lambda x:x[1].reward))
+        print self.buffer[0],self.buffer[self.current_size()/10]
     def update_td_error(self,td_err):    
        for i in range(len(td_err)):   
            if self.sample_minibatch[i][0]==1:
