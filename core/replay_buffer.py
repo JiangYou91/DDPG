@@ -27,7 +27,7 @@ class replay_buffer(object):
 #        self.td_error= deque([])
         
         self.sorted_buffer= [] #type heap
-        self.alpha = 0.2
+        self.alpha = 0.3
         
         self.distribution=[]
         
