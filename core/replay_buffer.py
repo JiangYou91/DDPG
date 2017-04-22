@@ -77,6 +77,7 @@ class replay_buffer(object):
                 else:
                     index= random.randint(0, self.current_size()-1)
                     sample = self.buffer[index]
+                    
                 states.append(sample.state) #no need to put into [] because it is already a vector
                 actions.append(sample.action) #no need to put into [] because it is already a vector
                 if self.reward_max-self.reward_min == 0:
@@ -96,9 +97,13 @@ class replay_buffer(object):
                 if random.uniform(0.0,1.0)<0.1:
                     index= random.randint(0, len(self.bests)-1)
                     sample = self.bests[index]
+                    self.sample_minibatch.append((0,index))
                 else:
                     index= random.randint(0, self.current_size()-1)
                     sample = self.buffer[index][1]
+                    self.sample_minibatch.append((1,index))
+                
+                
                 states.append(sample.state) #no need to put into [] because it is already a vector
                 actions.append(sample.action) #no need to put into [] because it is already a vector
                 if self.reward_max-self.reward_min == 0:
@@ -112,4 +117,9 @@ class replay_buffer(object):
     def sort_buffer(self):
         self.buffer.sort(reverse=True)
         
-        
+    def update_td_error(self,td_err):    
+       for i in range(len(td_err)):   
+           if self.sample_minibatch[i][0]==1:
+               sample =  self.buffer[self.sample_minibatch[i][1]][1]
+               self.buffer[self.sample_minibatch[i]]=(td_err[i][0],sample)
+           

@@ -271,7 +271,7 @@ class DDPG_gym(object):
          minibatch = self.replay_buffer.get_td_error_sorted_minibatch(self.config.minibatch_size) 
          td_err = self.trainer([minibatch.states, minibatch.actions, minibatch.rewards, minibatch.next_states])
         
-#         self.replay_buffer.update_td_error(td_err)
+         self.replay_buffer.update_td_error(td_err)
 #            self.temp_err_sorted= True
             
 #            with getSession(self.critic).as_default():
