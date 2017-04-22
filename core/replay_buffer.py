@@ -82,3 +82,5 @@ class replay_buffer(object):
                 #print((sample.reward-self.reward_min)/(self.reward_max-self.reward_min)*2.0-1.0)
                 next_states.append(sample.next_state) #no need to put into [] because it is already a vector
             return minibatch(states,actions,rewards,next_states)
+    def sort_buffer(self):
+        self.buffer.sort(reverse=True) 

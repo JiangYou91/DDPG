@@ -26,6 +26,7 @@ from DDPG.core.networks.helper.network_tracking import track_network
 from DDPG.core.helpers.tensorflow_grad_inverter import grad_inverter
 
 from DDPG.core.networks.helper.batch_norm import batch_norm
+from DDPG.core.networks.helper.tf_session_handler import getSession 
 import numpy as np
 
 def save_DDPG(ddpg_inst, filename):
@@ -145,7 +146,7 @@ class DDPG_gym(object):
         track_actor = track_network(self.actor, self.target_actor, self.config.actor_tracking_rate)
         track_critic = track_network(self.critic, self.target_critic, self.config.critic_tracking_rate)
         
-        self.trainer = operation_sequence([critic_update, deterministic_policy_gradient,self.actor.updaters + self.critic.updaters, track_actor + track_critic], inputs)
+        self.trainer = operation_sequence([ critic_update, deterministic_policy_gradient,self.actor.updaters + self.critic.updaters, track_actor + track_critic], inputs, temporal_difference_error(self.critic, reward_input, self.target_critic.output))
 
         self.replay_buffer = replay_buffer(self.config.buffer_min,self.config.buffer_size)
 
@@ -156,6 +157,7 @@ class DDPG_gym(object):
         self.train_loop_size = 1
         self.totStepTime = 0
         self.totTrainTime = 0
+#        self.td_err_sorted = False
 
     def get_actions_from_batch(self, state_batch):
         """
@@ -230,11 +232,17 @@ class DDPG_gym(object):
         '''
         max_nb_steps = 10000 #OSD:patch to study nb steps
         done = False
+        
+        
+        
         for i in range(M):
             self.nb_steps = 0
             self.state = self.env.reset()
             self.noise_generator.randomRange()
+            
             reward, done = self.perform_episode()
+#            if i%10 == 1:
+#                self.replay_buffer.sort_buffer()    
 #            if i%20 == 0:
 #                self.config.render =True
 #            else:
@@ -256,6 +264,27 @@ class DDPG_gym(object):
                 self.train()
 
     def train(self):
-        if (self.replay_buffer.isFullEnough()):
-            minibatch = self.replay_buffer.get_random_minibatch(self.config.minibatch_size)
-            self.trainer([minibatch.states, minibatch.actions, minibatch.rewards, minibatch.next_states])
+#        if (self.replay_buffer.isFullEnough()):
+#            if (not self.td_err_sorted):
+#                self.replay_buffer.init_td_error()
+#                self.td_err_sorted =True
+#            if not self.temp_err_sorted:
+#                minibatch = self.replay_buffer.get_random_minibatch(self.config.minibatch_size) 
+#            else:
+       
+         minibatch = self.replay_buffer.get_td_error_sorted_minibatch(self.config.minibatch_size) 
+         '''
+         modification de minibatch
+         '''
+         td_err = self.trainer([minibatch.states, minibatch.actions, minibatch.rewards, minibatch.next_states])
+        
+         self.replay_buffer.update_td_error(td_err)
+#            self.temp_err_sorted= True
+            
+#            with getSession(self.critic).as_default():
+#            sess = tf.InteractiveSession()
+#            with tf.Session() as sess:
+    
+#                print self.critic.output.eval()
+#                print sess.run(self.critic.output)
+#                
