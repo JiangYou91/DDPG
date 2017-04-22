@@ -130,6 +130,7 @@ class replay_buffer(object):
             return minibatch(states,actions,rewards,next_states)
    
     def sort_buffer(self):
+        print self.buffer[0],self.buffer[1]
         sorted(self.buffer,reverse=True,key = lambda x:x[0])
         
     def update_td_error(self,td_err):    
