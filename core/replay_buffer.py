@@ -119,7 +119,7 @@ class replay_buffer(object):
             s=sum(self.dist_sur_k)
             self.dist_sur_k = [i/s for i in self.dist_sur_k]
             self.range_dist = range(len(self.dist_sur_k)) 
-            self.length_range= int(len(self.distribution)/self.k)
+            self.length_range= min(1,int(len(self.distribution)/self.k))
             
 
     def isFullEnough(self):
