@@ -22,9 +22,13 @@ class replay_buffer(object):
         self.reward_min = float("Inf")
         self.reward_max = -float("Inf")
         
-        self.alpha=0.5
-        self.distribution=[]
-
+        self.alpha=0.5 
+        
+        self.distribution=[(1.0/i)**self.alpha for i in range(1,size+1)]
+        self.distribution=[sum(self.distribution[k*size/64:(k+1)*size/64]) for k in range(64)]
+        s = sum(self.distribution)
+        self.distribution=[i/s for i in self.distribution]
+        
     def flush(self):
         self.buffer = deque([])
             
@@ -60,10 +64,6 @@ class replay_buffer(object):
         else:
             self.buffer.append((self.buffer[0][0],sample)) 
             
-        if not(self.isFull()):
-            self.distribution=[(1.0/i)**self.alpha for i in range(1,self.current_size()+1)] 
-            s = sum(self.distribution)
-            self.distribution=[i/s for i in self.distribution] 
 
         
     def isFullEnough(self):
@@ -114,7 +114,9 @@ class replay_buffer(object):
                     self.sample_minibatch.append((0,index))
                 else:
 #                    index= random.randint(0, self.current_size()-1)
-                    index= np.random.choice(range(len(self.buffer)), p=self.distribution)
+                    segment_index= np.random.choice(range( batch_size ), p=self.distribution)
+                    index = np.random.randint(segment_index*self.current_size/batch_size,(segment_index+1)*self.current_size/batch_size)
+                    index = min(self.current_size,max(0,index))
                     sample = self.buffer[index][1]
                     self.sample_minibatch.append((1,index))
                 
@@ -131,7 +133,7 @@ class replay_buffer(object):
    
     def sort_buffer(self):
 #        print self.buffer[0],self.buffer[1]
-        self.buffer=  sorted(self.buffer,reverse=True)
+        self.buffer=  deque(sorted(self.buffer,reverse=True))
         
     def update_td_error(self,td_err):    
        for i in range(len(td_err)):   
