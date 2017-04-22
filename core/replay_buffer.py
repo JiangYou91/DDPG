@@ -130,8 +130,8 @@ class replay_buffer(object):
             return minibatch(states,actions,rewards,next_states)
    
     def sort_buffer(self):
-        print self.buffer[0],self.buffer[1]
-        sorted(self.buffer,reverse=True,key = lambda x:x[0])
+#        print self.buffer[0],self.buffer[1]
+        self.buffer=  deque(sorted(self.buffer,key = lambda x:x[0],reverse=True))
         
     def update_td_error(self,td_err):    
        for i in range(len(td_err)):   
