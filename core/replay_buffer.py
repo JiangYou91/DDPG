@@ -216,6 +216,8 @@ class replay_buffer(object):
            
             return minibatch(states,actions,rewards,next_states)
     def update_td_error(self,td_err):
+        print "td_err",td_err 
+        print " self.sample_minibatch",self.sample_minibatch 
         for i in range(len(td_err)): 
 #            self.td_error.pop(self.sample_minibatch[i])
 #            sample = self.sorted_buffer.pop(self.sample_minibatch[i])
@@ -265,6 +267,7 @@ class replay_buffer(object):
 #        self.sorted_buffer=[e[1] for e in l]
         #sorted(self.sorted_buffer, key=lambda s:s[1].reward, reverse=True)
         self.sorted_buffer.sort(reverse=True) 
+        print self.sample_minibatch 
 #        print self.sorted_buffer[0]
 #        print self.sorted_buffer[-1]
 #        print self.distribution  
