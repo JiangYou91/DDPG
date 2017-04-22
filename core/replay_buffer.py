@@ -20,6 +20,9 @@ class replay_buffer(object):
         self.min_filled = min_filled
         self.reward_min = float("Inf")
         self.reward_max = -float("Inf")
+        
+        self.alpha=0.5
+        self.distribution=[]
 
     def flush(self):
         self.buffer = deque([])
@@ -54,7 +57,12 @@ class replay_buffer(object):
         elif len( self.buffer)<5:
             self.buffer.append((1,sample))
         else:
-            self.buffer.append((self.buffer[0],sample))
+            self.buffer.append((self.buffer[0],sample)) 
+            
+        if not(self.isFull()):
+            self.distribution=[(1.0/i)**self.alpha for i in range(self.current_size)] 
+            s = sum(self.distribution)
+            self.distribution=[i/s for i in self.distribution] 
 
         
     def isFullEnough(self):
@@ -64,7 +72,7 @@ class replay_buffer(object):
         return (self.current_size()>=self.size)
 
     def get_state(self,index):
-        return self.buffer[index].state
+        return self.buffer[index][1].state
 
     def get_random_minibatch(self,batch_size):
             states = []
@@ -96,13 +104,16 @@ class replay_buffer(object):
             next_states = []
             self.sample_minibatch=[]
             
+                        
+            
             for i in range(batch_size):
                 if random.uniform(0.0,1.0)<0.1:
                     index= random.randint(0, len(self.bests)-1)
                     sample = self.bests[index]
                     self.sample_minibatch.append((0,index))
                 else:
-                    index= random.randint(0, self.current_size()-1)
+#                    index= random.randint(0, self.current_size()-1)
+                    index= random.choice(range(len(self.buffer)), p=self.distribution)
                     sample = self.buffer[index][1]
                     self.sample_minibatch.append((1,index))
                 
