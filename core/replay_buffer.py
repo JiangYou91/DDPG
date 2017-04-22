@@ -216,9 +216,10 @@ class replay_buffer(object):
            
             return minibatch(states,actions,rewards,next_states)
     def update_td_error(self,td_err):
+        return
 #        print "td_err",td_err 
 #        print " self.sample_minibatch",self.sample_minibatch 
-        for i in range(len(td_err)): 
+#        for i in range(len(td_err)): 
 #            self.td_error.pop(self.sample_minibatch[i])
 #            sample = self.sorted_buffer.pop(self.sample_minibatch[i])
             
@@ -245,8 +246,8 @@ class replay_buffer(object):
 #            self.td_error[self.sample_minibatch[i]]=td_err[i]
 #            self.sorted_buffer.append(sample)
 #            self.sorted_buffer[self.sample_minibatch[i]]=(td_err[i][0],self.sorted_buffer[self.sample_minibatch[i]][1])
-            if self.sample_minibatch[i][0]==1:#from bests
-                self.sorted_buffer[self.sample_minibatch[i][1]]=(td_err[i][0],self.sorted_buffer[self.sample_minibatch[i][1]][1]) 
+#            if self.sample_minibatch[i][0]==1:#from bests
+#                self.sorted_buffer[self.sample_minibatch[i][1]]=(td_err[i][0],self.sorted_buffer[self.sample_minibatch[i][1]][1]) 
 #            else:# from buffer
 #                heapq.heappushpop(self.sorted_buffer, (td_err[i][0],self.bests[self.sample_minibatch[i][1]]))
 
