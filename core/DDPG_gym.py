@@ -241,8 +241,8 @@ class DDPG_gym(object):
             self.noise_generator.randomRange()
             
             reward, done = self.perform_episode()
-#            if i%2 == 1:
-            self.replay_buffer.sort_buffer()    
+            if i%10 == 1:
+                self.replay_buffer.sort_buffer()    
 #            if i%20 == 0:
 #                self.config.render =True
 #            else:

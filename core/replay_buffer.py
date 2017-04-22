@@ -97,7 +97,8 @@ class replay_buffer(object):
 #            self.sorted_buffer.append(sample)
             
         if (self.isFull()):  
-            heapq.heapreplace(self.sorted_buffer, (np.random.uniform(0,self.sorted_buffer[0][0]),sample))  
+#            heapq.heapreplace(self.sorted_buffer, (np.random.uniform(0,self.sorted_buffer[0][0]),sample))  
+             self.sorted_buffer[random.randint(self.size/5,len(self.sorted_buffer)-1)] = (np.random.uniform(0,self.sorted_buffer[0][0]),sample)   
         elif len(self.sorted_buffer)<1:
             heapq.heappush(self.sorted_buffer, (0.7,sample)) 
         else:
@@ -263,8 +264,8 @@ class replay_buffer(object):
 #        self.sorted_buffer=[e[1] for e in l]
         #sorted(self.sorted_buffer, key=lambda s:s[1].reward, reverse=True)
         self.sorted_buffer.sort(reverse=True) 
-        print self.sorted_buffer[0]
-        print self.sorted_buffer[-1]
+#        print self.sorted_buffer[0]
+#        print self.sorted_buffer[-1]
 #        print self.distribution  
-        print self.dist_sur_k 
+#        print self.dist_sur_k 
 
