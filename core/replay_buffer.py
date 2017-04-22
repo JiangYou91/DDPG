@@ -22,7 +22,7 @@ class replay_buffer(object):
         self.reward_min = float("Inf")
         self.reward_max = -float("Inf")
         
-        self.alpha=0.5 
+        self.alpha=0.8 
         
         self.distribution=[(1.0/i)**self.alpha for i in range(1,size+1)]
         self.distribution=[sum(self.distribution[k*size/64:(k+1)*size/64]) for k in range(64)]
@@ -62,7 +62,7 @@ class replay_buffer(object):
         elif len( self.buffer)<5:
             self.buffer.append((1,sample))
         else:
-            self.buffer.append((self.buffer[0][0],sample)) 
+            self.buffer.append((self.buffer[0][0],sample))
             
 
         
@@ -133,8 +133,8 @@ class replay_buffer(object):
    
     def sort_buffer(self):
         self.buffer=  deque(sorted(self.buffer,reverse=True))
-        print self.buffer[0],self.buffer[self.current_size()/4],self.buffer[-1]
-        print self.sample_minibatch
+#        print self.buffer[0],self.buffer[self.current_size()/4],self.buffer[-1]
+#        print self.sample_minibatch
         
     def update_td_error(self,td_err):    
        for i in range(len(td_err)):   

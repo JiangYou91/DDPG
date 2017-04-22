@@ -242,7 +242,7 @@ class DDPG_gym(object):
             
             reward, done = self.perform_episode()
 #            if i%10 == 1:
-            self.replay_buffer.sort_buffer()    
+            self.replay_buffer.sort_buffer()
 #            if i%20 == 0:
 #                self.config.render =True
 #            else:
