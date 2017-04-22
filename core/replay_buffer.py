@@ -131,7 +131,7 @@ class replay_buffer(object):
    
     def sort_buffer(self):
 #        print self.buffer[0],self.buffer[1]
-        self.buffer=  deque(sorted(self.buffer,key = lambda x:x[0],reverse=True))
+        self.buffer=  deque(sorted(self.buffer, reverse=True))
         
     def update_td_error(self,td_err):    
        for i in range(len(td_err)):   
