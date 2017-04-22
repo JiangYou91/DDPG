@@ -60,7 +60,7 @@ class replay_buffer(object):
             self.buffer.append((self.buffer[0],sample)) 
             
         if not(self.isFull()):
-            self.distribution=[(1.0/i)**self.alpha for i in range(self.current_size())] 
+            self.distribution=[(1.0/i)**self.alpha for i in range(1,self.current_size())+1] 
             s = sum(self.distribution)
             self.distribution=[i/s for i in self.distribution] 
 
