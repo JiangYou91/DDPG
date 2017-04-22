@@ -264,21 +264,12 @@ class DDPG_gym(object):
                 self.train()
 
     def train(self):
-        minibatch = self.replay_buffer.get_random_minibatch(self.config.minibatch_size)
-        self.trainer([minibatch.states, minibatch.actions, minibatch.rewards, minibatch.next_states])
-#        if (self.replay_buffer.isFullEnough()):
-#            if (not self.td_err_sorted):
-#                self.replay_buffer.init_td_error()
-#                self.td_err_sorted =True
-#            if not self.temp_err_sorted:
-#                minibatch = self.replay_buffer.get_random_minibatch(self.config.minibatch_size) 
-#            else:
+#        minibatch = self.replay_buffer.get_random_minibatch(self.config.minibatch_size)
+#        self.trainer([minibatch.states, minibatch.actions, minibatch.rewards, minibatch.next_states])
+#        
        
-#         minibatch = self.replay_buffer.get_td_error_sorted_minibatch(self.config.minibatch_size) 
-          
-          
-          
-#         td_err = self.trainer([minibatch.states, minibatch.actions, minibatch.rewards, minibatch.next_states])
+         minibatch = self.replay_buffer.get_td_error_sorted_minibatch(self.config.minibatch_size) 
+         td_err = self.trainer([minibatch.states, minibatch.actions, minibatch.rewards, minibatch.next_states])
         
 #         self.replay_buffer.update_td_error(td_err)
 #            self.temp_err_sorted= True
