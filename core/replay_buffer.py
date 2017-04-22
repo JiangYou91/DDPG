@@ -134,6 +134,7 @@ class replay_buffer(object):
             return minibatch(states,actions,rewards,next_states)
    
     def sort_buffer(self):
+        self.buffer=  deque(sorted(self.buffer,reverse=True,key=lambda x:x[1].reward))
         self.buffer=  deque(sorted(self.buffer,reverse=True))
         print self.buffer[0],self.buffer[self.current_size()/10]
 #        print self.sample_minibatch
