@@ -245,10 +245,11 @@ class replay_buffer(object):
 #            self.td_error[self.sample_minibatch[i]]=td_err[i]
 #            self.sorted_buffer.append(sample)
 #            self.sorted_buffer[self.sample_minibatch[i]]=(td_err[i][0],self.sorted_buffer[self.sample_minibatch[i]][1])
-            if self.sample_minibatch[i][0]==0:#from bests
-                heapq.heappushpop(self.sorted_buffer, (td_err[i][0],self.bests[self.sample_minibatch[i][1]]))
-            else:# from buffer
-                self.sorted_buffer[self.sample_minibatch[i][1]]=(td_err[i][0],self.sorted_buffer[self.sample_minibatch[i][1]][1])
+            if self.sample_minibatch[i][0]==1:#from bests
+                self.sorted_buffer[self.sample_minibatch[i][1]]=(td_err[i][0],self.sorted_buffer[self.sample_minibatch[i][1]][1]) 
+#            else:# from buffer
+#                heapq.heappushpop(self.sorted_buffer, (td_err[i][0],self.bests[self.sample_minibatch[i][1]]))
+
 #        
 #            k=0
 ##            find the sample to do the permutation
