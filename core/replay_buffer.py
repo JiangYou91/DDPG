@@ -33,8 +33,8 @@ class replay_buffer(object):
         
         self.k=64
         self.dist_sur_k=[] 
-        self.range_dist=0
-        self.length_range=0        
+#        self.range_dist=[]
+#        self.length_range=1        
         
     def flush(self):
 #        self.buffer = []
@@ -112,14 +112,13 @@ class replay_buffer(object):
         if not (self.isFull()):
             self.distribution.append(pow(1.0/len(self.sorted_buffer),self.alpha))  
             self.k=max(64,int(np.sqrt(len(self.distribution))))
-            self.dist_sur_k=[]
-            for i in range(self.k):
-                self.dist_sur_k.append(sum(self.distribution[i*self.k:(i+1)*self.k]))
             
+            self.dist_sur_k=[sum(self.distribution[j*self.k:(j+1)*self.k]) for j in range(self.k)]              
             s=sum(self.dist_sur_k)
-            self.dist_sur_k = [i/s for i in self.dist_sur_k]
-            self.range_dist = range(len(self.dist_sur_k)) 
-            self.length_range= min(1,int(len(self.distribution)/self.k))
+            self.dist_sur_k = [e/s for e in self.dist_sur_k]
+            
+#            self.range_dist = range(len(self.dist_sur_k)) 
+#            self.length_range= int(len(self.distribution)/self.k)
             
 
     def isFullEnough(self):
@@ -196,8 +195,8 @@ class replay_buffer(object):
 #                    sample = self.sorted_buffer[index]
 
 #                    index_range = np.random.choice(range_dist, p=dist)          
-                    index_range = np.random.choice(self.range_dist, p=self.dist_sur_k)  
-                    index = min(len(self.sorted_buffer)-1,np.random.randint(index_range*self.length_range, (index_range+1)*self.length_range))
+                    index_range = np.random.choice(range(len(self.dist_sur_k)), p=self.dist_sur_k)  
+                    index = min(len(self.sorted_buffer)-1, np.random.randint(index_range*len(self.sorted_buffer)/len(self.dist_sur_k), (index_range+1)*index_range*len(self.sorted_buffer)/len(self.dist_sur_k)))
     #                   sample = self.sorted_buffer[index]
                     sample = self.sorted_buffer[index][1]
 #                    print index, index_range
