@@ -7,6 +7,7 @@ import random
 from collections import deque
 from minibatch import minibatch
 from sample import sample
+import numpy as np
 
 class replay_buffer(object):
     """
@@ -113,7 +114,7 @@ class replay_buffer(object):
                     self.sample_minibatch.append((0,index))
                 else:
 #                    index= random.randint(0, self.current_size()-1)
-                    index= random.choice(range(len(self.buffer)), p=self.distribution)
+                    index= np.random.choice(range(len(self.buffer)), p=self.distribution)
                     sample = self.buffer[index][1]
                     self.sample_minibatch.append((1,index))
                 
