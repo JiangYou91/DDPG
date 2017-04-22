@@ -58,12 +58,14 @@ class replay_buffer(object):
                 self.bests.pop()
         if (self.isFull()):
             # replace an older sample, but protecting the beginning
-            self.buffer[random.randint(self.size/5, self.size-1)] = ((self.buffer[0][0],sample))
+            error = np.random.uniform(self.buffer[0][self.size/5],self.buffer[self.size/2][0])
+            self.buffer[random.randint(self.size/5, self.size-1)] = ((error,sample))
         elif len( self.buffer)<5:
             self.buffer.append((1,sample))
         else:
 #            print self.buffer[0][0],self.buffer[self.current_size()/5][0]
-            error = np.random.uniform(self.buffer[0][0],self.buffer[self.current_size()/5][0])
+
+            error = np.random.uniform(self.buffer[0][self.current_size()/5],self.buffer[self.current_size()/2][0])
             self.buffer.appendleft((error,sample))
             
 
@@ -134,7 +136,7 @@ class replay_buffer(object):
             return minibatch(states,actions,rewards,next_states)
    
     def sort_buffer(self):
-        self.buffer=  deque(sorted(self.buffer,reverse=True,key=lambda x:x[1].reward))
+#        self.buffer=  deque(sorted(self.buffer,reverse=True,key=lambda x:x[1].reward))
         self.buffer=  deque(sorted(self.buffer,reverse=True))
         print self.buffer[0],self.buffer[self.current_size()/10]
 #        print self.sample_minibatch
