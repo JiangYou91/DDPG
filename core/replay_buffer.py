@@ -266,9 +266,9 @@ class replay_buffer(object):
 #        self.td_error=[e[0] for e in l]
 #        self.sorted_buffer=[e[1] for e in l]
         #sorted(self.sorted_buffer, key=lambda s:s[1].reward, reverse=True)
-        self.sorted_buffer.sort(reverse=True) 
-        print self.sample_minibatch 
-        print self.sorted_buffer[0],  self.sorted_buffer[len( self.sorted_buffer)/2], self.sorted_buffer[-1]
+#        self.sorted_buffer.sort(reverse=True) 
+#        print self.sample_minibatch 
+#        print self.sorted_buffer[0],  self.sorted_buffer[len( self.sorted_buffer)/2], self.sorted_buffer[-1]
 #        print self.distribution  
 #        print self.dist_sur_k 
 
