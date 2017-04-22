@@ -8,7 +8,7 @@ TODO: replace with the gym cartpole
 
 from DDPG.core.DDPG_core import DDPG
 
-import DDPG.environement.instance.cartpoleEnv as cpe
+import DDPG.environment.instance.cartpoleEnv as cpe
 
 
 env = cpe.carpoleEnv()
@@ -22,5 +22,3 @@ env.extern_draw = perfs
 
 def doEp(M, T=float("inf")):
     a_c.M_episodes(M, T)
-
-doEp(100)

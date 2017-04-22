@@ -9,7 +9,7 @@
   <criticParams>
   	<layer1_size>100</layer1_size>
   	<layer2_size>50</layer2_size>
-  	<learning_rate>0.005</learning_rate>
+  	<learning_rate>0.05</learning_rate>
   	<critic_tracking_rate>0.001</critic_tracking_rate>
   	<gamma>0.99</gamma>
   	<regularization>0.001</regularization>

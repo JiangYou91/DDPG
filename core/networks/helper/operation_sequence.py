@@ -11,11 +11,10 @@ from DDPG.core.networks.helper.tf_session_handler import getSession
 
 class operation_sequence:
     
-    def __init__(self, Ops, inputs=None,temp_err=None):
+    def __init__(self, Ops, inputs=None):
         self.inputs = inputs
         previous_ops = []
         graph = None
-        self.temp_err = temp_err
         if not isinstance(Ops[0], list):
             graph=Ops[0].graph
         else:
@@ -32,21 +31,6 @@ class operation_sequence:
         
     def __call__(self, inputs_vals=None):
         
-        self.session.run(self.operations, feed_dict=dict(zip(self.inputs, inputs_vals))) 
-        return self.session.run(self.temp_err, feed_dict=dict(zip(self.inputs, inputs_vals)))
-#        print len(inputs_vals[0])
-#        print self.session.run(self.temp_err, feed_dict=dict(zip(self.inputs, inputs_vals))).shape
-        '''
-        
-(64, 1)
-64
-(64, 1)
-64
-(64, 1)
-64
-(64, 1)
-        '''
-#        print self.session.run(self.temp_err,dict(zip(self.inputs, inputs_vals)))
-#        print .get_default_graph().get_tensor_by_name("Critic");
+        self.session.run(self.operations, feed_dict=dict(zip(self.inputs, inputs_vals)))
                     
             
