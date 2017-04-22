@@ -54,11 +54,11 @@ class replay_buffer(object):
                 self.bests.pop()
         if (self.isFull()):
             # replace an older sample, but protecting the beginning
-            self.buffer[random.randint(self.size/5, self.size-1)] = ((self.buffer[0],sample))
+            self.buffer[random.randint(self.size/5, self.size-1)] = ((self.buffer[0][0],sample))
         elif len( self.buffer)<5:
             self.buffer.append((1,sample))
         else:
-            self.buffer.append((self.buffer[0],sample)) 
+            self.buffer.append((self.buffer[0][0],sample)) 
             
         if not(self.isFull()):
             self.distribution=[(1.0/i)**self.alpha for i in range(1,self.current_size()+1)] 
@@ -130,9 +130,8 @@ class replay_buffer(object):
             return minibatch(states,actions,rewards,next_states)
    
     def sort_buffer(self):
-#        print self.buffer
-        s = list(self.buffer).sort(reverse=True)
-        self.buffer=  deque(s)
+        print self.buffer[0],self.buffer[1]
+       self.buffer=  sorted(self.buffer,reverse=True)
         
     def update_td_error(self,td_err):    
        for i in range(len(td_err)):   
