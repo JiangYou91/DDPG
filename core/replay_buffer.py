@@ -95,11 +95,11 @@ class replay_buffer(object):
 #            self.sorted_buffer.append(sample)
             
         if (self.isFull()):  
-            heapq.heapreplace(self.sorted_buffer, (self.sorted_buffer[0][0],sample))  
+            heapq.heapreplace(self.sorted_buffer, (np.random.uniform(0,self.sorted_buffer[0][0]),sample))  
         elif len(self.sorted_buffer)<1:
             heapq.heappush(self.sorted_buffer, (0.7,sample)) 
         else:
-            heapq.heappush(self.sorted_buffer, (self.sorted_buffer[0][0],sample)) 
+            heapq.heappush(self.sorted_buffer, (np.random.uniform(0,self.sorted_buffer[0][0]),sample)) 
             
 #        if len(self.sorted_buffer) > 3000:
 #        if (self.isFull()):
