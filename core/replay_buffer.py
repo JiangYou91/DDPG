@@ -197,9 +197,9 @@ class replay_buffer(object):
 
 #                    index_range = np.random.choice(range_dist, p=dist)          
                     index_range = np.random.choice(self.range_dist, p=self.dist_sur_k)  
-                    index = np.random.randint(index_range*self.length_range, (index_range+1)*self.length_range)
-    #                    sample = self.sorted_buffer[index]               
-                    sample = self.sorted_buffer[index][1]              
+                    index = min(len(self.sorted_buffer)-1,np.random.randint(index_range*self.length_range, (index_range+1)*self.length_range))
+    #                   sample = self.sorted_buffer[index]
+                    sample = self.sorted_buffer[index][1]
 #                    print index, index_range
                     
                     self.sample_minibatch.append((1,index))
