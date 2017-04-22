@@ -115,8 +115,8 @@ class replay_buffer(object):
                 else:
 #                    index= random.randint(0, self.current_size()-1)
                     segment_index= np.random.choice(range( batch_size ), p=self.distribution)
-                    index = np.random.randint(segment_index*self.current_size/batch_size,(segment_index+1)*self.current_size/batch_size)
-                    index = min(self.current_size,max(0,index))
+                    index = np.random.randint(segment_index*self.current_size()/batch_size,1+(segment_index+1)*self.current_size()/batch_size)
+                    index = min(self.current_size()-1,max(0,index))
                     sample = self.buffer[index][1]
                     self.sample_minibatch.append((1,index))
                 
