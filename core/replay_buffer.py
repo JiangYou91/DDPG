@@ -22,7 +22,7 @@ class replay_buffer(object):
         self.reward_min = float("Inf")
         self.reward_max = -float("Inf")
         
-        self.alpha=0.8 
+        self.alpha=0.5 
         
         self.distribution=[(1.0/i)**self.alpha for i in range(1,size+1)]
         self.distribution=[sum(self.distribution[k*size/64:(k+1)*size/64]) for k in range(64)]

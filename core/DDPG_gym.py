@@ -269,7 +269,7 @@ class DDPG_gym(object):
 #        minibatch = self.replay_buffer.get_random_minibatch(self.config.minibatch_size)
 #        self.trainer([minibatch.states, minibatch.actions, minibatch.rewards, minibatch.next_states])
 #        
-       
+        
          minibatch = self.replay_buffer.get_td_error_sorted_minibatch(self.config.minibatch_size) 
          td_err = self.trainer([minibatch.states, minibatch.actions, minibatch.rewards, minibatch.next_states])
         
