@@ -179,7 +179,7 @@ class replay_buffer(object):
              
              
             for i in range(batch_size): 
-                if np.random.rand()<0.3:
+                if np.random.rand()<0.1:
 #                    index= min(len(sortd_buff_by_reward)-1,int(np.random.exponential(1)*len(sortd_buff_by_reward)/6))
 #                    sample = sortd_buff_by_reward[index][0]
 #                    index= random.randint(0, len(self.bests)-1)
