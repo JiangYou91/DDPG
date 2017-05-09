@@ -45,7 +45,7 @@ def doInit():
  #       draw_policy(agent,env)
 '''
 #c=Chrono()
-doEp(10000)
+doEp(500)
 
 #doEp(10000)
 save_DDPG(agent, "./DDPG/test/Agent_0.ddpg")

@@ -14,10 +14,10 @@ from DDPG.core.helpers.Chrono import Chrono
 from DDPG.core.helpers.read_xml_file import read_xml_file
 
 import gym
-config = read_xml_file("DDPG_mc_config.xml")
+config = read_xml_file("./DDPG/test/DDPG_mc_config.xml")
 
-#env = gym.make('MountainCarContinuous-v0')
-env = gym.make('LunarLanderContinuous-v2')
+env = gym.make('MountainCarContinuous-v0')
+#env = gym.make('LunarLanderContinuous-v2')
 #env.configure(deterministic=False)
 
 #env = gym.make('Pendulum-v0')
@@ -48,3 +48,5 @@ if (monitor):
     env.monitor.close()
     gym.upload('/home/sigaud/Bureau/sigaud/DDPG_gym/DDPG/log', api_key='sk_oOTW8cLjQIeQeQdalZSApA')
 c.stop()
+
+ 

@@ -147,7 +147,8 @@ class fully_connected_network:
                 self.set_params_input.append(tf.placeholder(tf.float32, self.params[i].get_shape()))
                 self.set_params_assign.append(self.params[i].assign(self.set_params_input[i]))
                 
-            
+    def getWeightBias(self):
+        return (sum(getSession(self.graph).run(self.w)[0]),sum(getSession(self.graph).run(self.b)[0]))
     def getParams(self):
         return getSession(self.graph).run(self.params)
     def setParams(self, params_list):

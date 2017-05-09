@@ -51,6 +51,8 @@ class DDPG_gym(object):
 
     def __init__(self, env, config, actor_parameters = None, critic_parameters = None):
         self.env = env
+        
+        self.counter=0
 
         self.config = config
 
@@ -146,7 +148,7 @@ class DDPG_gym(object):
         track_actor = track_network(self.actor, self.target_actor, self.config.actor_tracking_rate)
         track_critic = track_network(self.critic, self.target_critic, self.config.critic_tracking_rate)
         
-        self.trainer = operation_sequence([ critic_update, deterministic_policy_gradient,self.actor.updaters + self.critic.updaters, track_actor + track_critic], inputs, temporal_difference_error(self.critic, reward_input, self.target_critic.output))
+        self.trainer = operation_sequence([ critic_update, deterministic_policy_gradient,self.actor.updaters + self.critic.updaters, track_actor + track_critic], inputs, temporal_difference_error(self.critic, reward_input, self.target_critic.output) )
 
         self.replay_buffer = replay_buffer(self.config.buffer_min,self.config.buffer_size)
 
@@ -240,15 +242,23 @@ class DDPG_gym(object):
             self.state = self.env.reset()
             self.noise_generator.randomRange()
             
+#            self.replay_buffer.flush_temporal_buffer()
+            
             reward, done = self.perform_episode()
+            
+            if (self.nb_steps<max_nb_steps+100 ) or self.nb_steps<300 :
+                self.replay_buffer.update_bests_buffer()
 #            if i%10 == 1:
-#                self.replay_buffer.sort_buffer_by_reward()
+#            self.replay_buffer.sort_buffer_by_reward()
 #            else:
-            self.replay_buffer.sort_buffer_by_td_error()
+#            self.replay_buffer.sort_buffer_by_td_error()
+#            print "\n actor", self.actor.getWeightBias()
+#            print "critic", self.critic.getParams()
 #            if i%20 == 0:
 #                self.config.render =True
 #            else:
 #                self.config.render =False
+            self.replay_buffer.showConvergence()
             if i % self.config.print_interval == 0 and self.config.train:
                 self.stepsTime += self.totStepTime + self.totTrainTime
 #                print("Steps/minutes : " , 60.0*self.numSteps/self.stepsTime)               
@@ -257,7 +267,7 @@ class DDPG_gym(object):
             if (self.nb_steps<max_nb_steps):#OSD:patch to study nb steps
                 max_nb_steps = self.nb_steps
                 print('episode',i,'***** nb steps',self.nb_steps, " perf : ", reward, " total steps :", self.numSteps)
-                print(self.replay_buffer.reward_min, self.replay_buffer.reward_max)
+#                print(self.replay_buffer.reward_min, self.replay_buffer.reward_max)
             else: print('episode',i,'nb steps',self.nb_steps, " perf : ", reward, " total steps :", self.numSteps)
 
     def train_loop(self,nb_loops):
@@ -266,14 +276,20 @@ class DDPG_gym(object):
                 self.train()
 
     def train(self):
-#        minibatch = self.replay_buffer.get_random_minibatch(self.config.minibatch_size)
-#        self.trainer([minibatch.states, minibatch.actions, minibatch.rewards, minibatch.next_states])
+#         minibatch = self.replay_buffer.get_random_minibatch(self.config.minibatch_size)
+#         self.trainer([minibatch.states, minibatch.actions, minibatch.rewards, minibatch.next_states])
 #        
         
          minibatch = self.replay_buffer.get_td_error_sorted_minibatch(self.config.minibatch_size) 
          td_err = self.trainer([minibatch.states, minibatch.actions, minibatch.rewards, minibatch.next_states])
-        
+ 
          self.replay_buffer.update_td_error(td_err)
+         
+         self.counter+=1
+         if(self.counter==2):
+            self.counter=0
+            self.replay_buffer.sort_buffer_by_td_error() 
+             
 #            self.temp_err_sorted= True
             
 #            with getSession(self.critic).as_default():
