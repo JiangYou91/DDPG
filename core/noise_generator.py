@@ -29,7 +29,7 @@ class noise_generator(object):
         self.beta = self.beta*1.02
 
     def decrease_noise(self):
-        self.beta = self.beta*0.7
+        self.beta = self.beta*0.9
     def randomRange(self):
         self.beta = random.uniform(0.0,1.0)
 
