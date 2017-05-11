@@ -26,7 +26,7 @@ class replay_buffer(object):
         self.temporal_buffer_size=size;
         
         self.temporal_buffer=[];
-        self.alpha=1
+        self.alpha=0.4
         
 #        self.mean=1
 #        self.std=0.1
@@ -73,14 +73,22 @@ class replay_buffer(object):
 #         
     
     def update_bests_buffer(self): 
-        error = 0.01
         for i in range(len(self.temporal_buffer)):
+            error = np.random.uniform(0,self.bests[len(self.bests)/40][0])
 #           print self.temporal_buffer_size, self.current_size()-1
             if len(self.bests)>self.bests_size: 
                 self.bests[min(random.randint(len( self.bests)/10,1+len( self.bests)),len(self.bests)-1)] =   (error,self.temporal_buffer[i] ) 
             else:
                 self.bests.append( (error,self.temporal_buffer[i] ) )
-    
+    def update_buffer(self): 
+        for i in range(len(self.temporal_buffer)):
+            error = np.random.uniform(0,self.bests[len(self.bests)/40][0])
+#           print self.temporal_buffer_size, self.current_size()-1
+            if (self.isFull()): 
+                self.buffer[min(random.randint(len( self.buffer)/10,1+len( self.buffer)),len(self.buffer)-1)] =   (error,self.temporal_buffer[i] ) 
+            else:
+                self.buffer.append( (error,self.temporal_buffer[i] ) )
+                
     def store_one_sample(self, sample):
         self.reward_max = max(sample.reward, self.reward_max)
         self.reward_min = min(sample.reward, self.reward_min)   
@@ -94,20 +102,22 @@ class replay_buffer(object):
 #        error = max(0,np.random.normal(loc  = self.mean,scale  =self.std) )
         self.temporal_buffer.append(sample)
 
-        if (self.isFull()):
-            # replace an older sample, but protecting the beginning
-           #np.random.uniform(self.buffer[self.current_size()/5][0],self.buffer[self.current_size()/2][0])
-           error = self.buffer[self.size/50][0]
-           self.buffer[random.randint(self.size/10, self.size-1)] = ((error,sample))
+#        if (self.isFull()):
+#            # replace an older sample, but protecting the beginning
+#           #np.random.uniform(self.buffer[self.current_size()/5][0],self.buffer[self.current_size()/2][0])
+#           error = self.buffer[self.size/50][0]
+#           self.buffer[random.randint(self.size/10, self.size-1)] = ((error,sample))
 #            self.buffer.appendleft((error,sample))
 #            self.buffer.pop()
 #        elif len( self.buffer)<5:
 #            self.buffer.append((1,sample))
-        else:
-#            print self.buffer[0][0],self.buffer[self.current_size()/5][0]
-#            error = 1#np.random.uniform(self.buffer[self.current_size()/5][0],self.buffer[self.current_size()/2][0])
-            self.buffer.append((0.01,sample))
+#        else:
+##            print self.buffer[0][0],self.buffer[self.current_size()/5][0]
+##            error = 1#np.random.uniform(self.buffer[self.current_size()/5][0],self.buffer[self.current_size()/2][0])
+#            self.buffer.append((0.01,sample))
             
+        if  len(self.buffer)<5:
+            self.buffer.append((0.01,sample))
         if  len(self.bests)<5:
             self.bests.append((0.01,sample))
 #    def store_one_sample(self, sample):
@@ -186,7 +196,7 @@ class replay_buffer(object):
             inf2 = segment_index*len(self.buffer)/batch_size
             sup2 = 1+(segment_index+1)*len(self.buffer)/batch_size
             for i in range(batch_size):
-                if random.uniform(0.0,1.0)<0.7:
+                if random.uniform(0.0,1.0)<0.3:
 #                    index= random.randint(0, len(self.bests)-1)
 #                    sample = self.bests[index] 
 #                    segment_index= np.random.choice(range( batch_size ), p=self.distribution)

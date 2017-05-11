@@ -3,14 +3,14 @@
   <actorParams>
   	<layer1_size>200</layer1_size>
   	<layer2_size>100</layer2_size>
-  	<learning_rate>0.01</learning_rate>
-  	<actor_tracking_rate>0.01</actor_tracking_rate>
+  	<learning_rate>0.3</learning_rate>
+  	<actor_tracking_rate>0.001</actor_tracking_rate>
   </actorParams>
   <criticParams>
   	<layer1_size>200</layer1_size>
   	<layer2_size>100</layer2_size>
-  	<learning_rate>0.01</learning_rate>
-  	<critic_tracking_rate>0.01</critic_tracking_rate>
+  	<learning_rate>0.05</learning_rate>
+  	<critic_tracking_rate>0.001</critic_tracking_rate>
   	<gamma>0.99</gamma>
   	<regularization>0.001</regularization>
   </criticParams>

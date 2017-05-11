@@ -242,12 +242,14 @@ class DDPG_gym(object):
             self.state = self.env.reset()
             self.noise_generator.randomRange()
             
-#            self.replay_buffer.flush_temporal_buffer()
+            self.replay_buffer.flush_temporal_buffer()
             
             reward, done = self.perform_episode()
             
-            if (self.nb_steps<max_nb_steps+100 ) or self.nb_steps<300 :
+            if (self.nb_steps<max_nb_steps+100 ) or reward>80 :
                 self.replay_buffer.update_bests_buffer()
+            self.replay_buffer.update_buffer()
+            
 #            if i%10 == 1:
 #            self.replay_buffer.sort_buffer_by_reward()
 #            else:
@@ -258,7 +260,7 @@ class DDPG_gym(object):
 #                self.config.render =True
 #            else:
 #                self.config.render =False
-            self.replay_buffer.showConvergence()
+#            self.replay_buffer.showConvergence()
             if i % self.config.print_interval == 0 and self.config.train:
                 self.stepsTime += self.totStepTime + self.totTrainTime
 #                print("Steps/minutes : " , 60.0*self.numSteps/self.stepsTime)               
@@ -266,9 +268,9 @@ class DDPG_gym(object):
                 self.totTrainTime = 0
             if (self.nb_steps<max_nb_steps):#OSD:patch to study nb steps
                 max_nb_steps = self.nb_steps
-                print('episode',i,'***** nb steps',self.nb_steps, " perf : ", reward, " total steps :", self.numSteps)
+                print('episode',i,'***** nb steps',self.nb_steps, " perf : ", int(reward), " total steps :", self.numSteps)
 #                print(self.replay_buffer.reward_min, self.replay_buffer.reward_max)
-            else: print('episode',i,'nb steps',self.nb_steps, " perf : ", reward, " total steps :", self.numSteps)
+            else: print('episode',i,'nb steps',self.nb_steps, " perf : ", int(reward), " total steps :", self.numSteps)
 
     def train_loop(self,nb_loops):
         if self.config.train:
