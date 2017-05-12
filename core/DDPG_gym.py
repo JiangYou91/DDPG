@@ -288,7 +288,7 @@ class DDPG_gym(object):
          self.replay_buffer.update_td_error(td_err)
          
          self.counter+=1
-         if(self.counter==20):
+         if(self.counter==2):
             self.counter=0
             self.replay_buffer.sort_buffer_by_td_error() 
              
