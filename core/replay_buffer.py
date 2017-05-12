@@ -26,7 +26,7 @@ class replay_buffer(object):
         self.temporal_buffer_size=size;
         
         self.temporal_buffer=[];
-        self.alpha=0.4
+        self.alpha=0.3
         
 #        self.mean=1
 #        self.std=0.1
@@ -196,7 +196,7 @@ class replay_buffer(object):
             inf2 = segment_index*len(self.buffer)/batch_size
             sup2 = 1+(segment_index+1)*len(self.buffer)/batch_size
             for i in range(batch_size):
-                if random.uniform(0.0,1.0)<0.3:
+                if random.uniform(0.0,1.0)<0.2:
 #                    index= random.randint(0, len(self.bests)-1)
 #                    sample = self.bests[index] 
 #                    segment_index= np.random.choice(range( batch_size ), p=self.distribution)

@@ -3,7 +3,7 @@
   <actorParams>
   	<layer1_size>200</layer1_size>
   	<layer2_size>100</layer2_size>
-  	<learning_rate>0.3</learning_rate>
+  	<learning_rate>0.15</learning_rate>
   	<actor_tracking_rate>0.001</actor_tracking_rate>
   </actorParams>
   <criticParams>
