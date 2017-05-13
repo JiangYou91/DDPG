@@ -246,7 +246,7 @@ class DDPG_gym(object):
             
             reward, done = self.perform_episode()
             
-            if (self.nb_steps<max_nb_steps+100 ) or reward>80 :
+            if (self.nb_steps<max_nb_steps+100 ) or reward>80 or i< 10:
                 self.replay_buffer.update_bests_buffer()
             self.replay_buffer.update_buffer()
             
