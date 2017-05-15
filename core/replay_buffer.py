@@ -26,8 +26,8 @@ class replay_buffer(object):
         self.temporal_buffer_size=size;
         
         self.temporal_buffer=[];
-        self.alpha=0.6
-        
+        self.alpha=0.8
+        self.sort=True
 #        self.mean=1
 #        self.std=0.1
         
@@ -37,14 +37,23 @@ class replay_buffer(object):
         self.distribution=[i/s for i in self.distribution]
         
     def updatealpha(self,alpha):
-        if abs(self.alpha-alpha)< 0.1:
+        if alpha<0.05:
+            self.sort=False
             return
+        elif alpha>0.6:
+            self.sort=True
+            return 
+        else:
+            self.sort=True
+#        if abs(self.alpha-alpha)< 0.1: 
+#            return
+            
         self.alpha=alpha  
         self.distribution=[(1.0/i)**self.alpha for i in range(1,self.size+1)]
         self.distribution=[sum(self.distribution[k*self.size/64:(k+1)*self.size/64]) for k in range(64)]
         s = sum(self.distribution)
         self.distribution=[i/s for i in self.distribution]
-        
+       
     def flush(self):
         self.buffer = deque([])
             
@@ -176,7 +185,8 @@ class replay_buffer(object):
                 if self.reward_max-self.reward_min == 0:
                     rewards.append([sample.reward])
                 else:                
-                    rewards.append([(sample.reward-self.reward_min)/(self.reward_max-self.reward_min)*2.0-1.0])
+                    rewards.append([(sample.reward)/(self.reward_max-self.reward_min) ])
+#                    rewards.append([(sample.reward-self.reward_min)/(self.reward_max-self.reward_min)*2.0-1.0])
                 #print((sample.reward-self.reward_min)/(self.reward_max-self.reward_min)*2.0-1.0)
                 next_states.append(sample.next_state) #no need to put into [] because it is already a vector
             return minibatch(states,actions,rewards,next_states)
@@ -227,6 +237,8 @@ class replay_buffer(object):
         return  (reward-self.reward_min)/(self.reward_max-self.reward_min)*2.0-1.0
 
     def sort_buffer_by_td_error(self): 
+        if not self.sort:
+            return
         self.buffer=  deque(sorted(self.buffer,reverse=True))
         self.bests=  deque(sorted(self.bests,reverse=True))
 #        index = min(self.temporal_buffer_size,self.current_size()/40)

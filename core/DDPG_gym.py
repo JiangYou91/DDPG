@@ -220,10 +220,16 @@ class DDPG_gym(object):
                     self.train()
                     self.totTrainTime += time.time() - trainTime
                 self.numSteps+=1
-#        if (done):
-#            self.noise_generator.decrease_noise()
-#        else:
-#            self.noise_generator.increase_noise()            
+        if (done):
+            self.noise_generator.decrease_noise()
+            self.config.actor_learning_rate=max(0.05,self.config.actor_learning_rate/1.003)
+            self.config.critic_learning_rate=max(0.01,self.config.critic_learning_rate/1.003)
+#            self.replay_buffer.updatealpha(self.replay_buffer.alpha*0.999)
+        else:
+            self.noise_generator.increase_noise()
+            self.config.actor_learning_rate=min(0.3,self.config.actor_learning_rate*1.03)
+            self.config.critic_learning_rate=min(0.05,self.config.critic_learning_rate*1.03)
+#            self.replay_buffer.updatealpha(self.replay_buffer.alpha/0.9)
         if self.config.draw_policy:
             draw_policy(self,self.env)
         return totReward, done
@@ -246,7 +252,7 @@ class DDPG_gym(object):
             
             reward, done = self.perform_episode()
             
-            if (self.nb_steps<max_nb_steps+100 ) or reward>80 or i< 10:
+            if (self.nb_steps<max_nb_steps+100 ) or reward>88 or i< 10:
                 self.replay_buffer.update_bests_buffer()
             self.replay_buffer.update_buffer()
             

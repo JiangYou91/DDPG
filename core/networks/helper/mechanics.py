@@ -8,7 +8,7 @@ Created on Fri Sep  9 13:46:42 2016
 import tensorflow as tf
 from DDPG.core.networks.helper.tf_session_handler import getSession 
 
-def temporal_difference_error(net, reward_input, q_s_a, gamma = 0.94, regularization=0.0001):
+def temporal_difference_error(net, reward_input, q_s_a, gamma = 0.999, regularization=0.0001):
     graph = reward_input.graph
     with graph.as_default():
         y_opp = reward_input + q_s_a*gamma

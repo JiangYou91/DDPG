@@ -26,10 +26,10 @@ class noise_generator(object):
 #        self.n_steps += 1
 #        return x
     def increase_noise(self):
-        self.beta = self.beta*1.02
+        self.beta = min(0.2,self.beta*1.02)
 
     def decrease_noise(self):
-        self.beta = self.beta*0.9
+        self.beta = max(0.01,self.beta*0.8)
     def randomRange(self):
         self.beta = random.uniform(0.0,1.0)
 
