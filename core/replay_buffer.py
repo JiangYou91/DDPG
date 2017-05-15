@@ -26,7 +26,7 @@ class replay_buffer(object):
         self.temporal_buffer_size=size;
         
         self.temporal_buffer=[];
-        self.alpha=0.8
+        self.alpha=0.4
         self.sort=True
 #        self.mean=1
 #        self.std=0.1
