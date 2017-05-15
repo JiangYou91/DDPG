@@ -222,13 +222,14 @@ class DDPG_gym(object):
                 self.numSteps+=1
         if (done):
             self.noise_generator.decrease_noise()
-            self.config.actor_learning_rate=max(0.05,self.config.actor_learning_rate/1.003)
-            self.config.critic_learning_rate=max(0.01,self.config.critic_learning_rate/1.003)
-#            self.replay_buffer.updatealpha(self.replay_buffer.alpha*0.999)
+            self.config.actor_learning_rate=max(0.05,self.config.actor_learning_rate/1.03)
+            self.config.critic_learning_rate=max(0.01,self.config.critic_learning_rate/1.03)
+#            if(reward>90): 
+#                self.replay_buffer.updatealpha(self.replay_buffer.alpha*0.9)
         else:
             self.noise_generator.increase_noise()
-            self.config.actor_learning_rate=min(0.3,self.config.actor_learning_rate*1.03)
-            self.config.critic_learning_rate=min(0.05,self.config.critic_learning_rate*1.03)
+            self.config.actor_learning_rate=min(0.3,self.config.actor_learning_rate*1.003)
+            self.config.critic_learning_rate=min(0.05,self.config.critic_learning_rate*1.003)
 #            self.replay_buffer.updatealpha(self.replay_buffer.alpha/0.9)
         if self.config.draw_policy:
             draw_policy(self,self.env)

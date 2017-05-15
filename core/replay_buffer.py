@@ -26,7 +26,7 @@ class replay_buffer(object):
         self.temporal_buffer_size=size;
         
         self.temporal_buffer=[];
-        self.alpha=0.4
+        self.alpha=0.6
         self.sort=True
 #        self.mean=1
 #        self.std=0.1
@@ -47,6 +47,7 @@ class replay_buffer(object):
             self.sort=True
 #        if abs(self.alpha-alpha)< 0.1: 
 #            return
+#        print'Time: update alpha to' , alpha
             
         self.alpha=alpha  
         self.distribution=[(1.0/i)**self.alpha for i in range(1,self.size+1)]
